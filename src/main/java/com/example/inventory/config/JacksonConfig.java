@@ -1,24 +1,23 @@
 package com.example.inventory.config;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
+import org.springframework.boot.jackson.autoconfigure.JsonMapperBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import tools.jackson.databind.DeserializationFeature;
+import tools.jackson.databind.SerializationFeature;
+import tools.jackson.databind.cfg.DateTimeFeature;
 
 /**
- * Jackson 2 customisation. Spring Boot 4 moves to Jackson 3 ({@code tools.jackson.*}
- * packages) and replaces {@code Jackson2ObjectMapperBuilderCustomizer} with
- * {@code JsonMapperBuilderCustomizer}.
+ * Jackson 3 customisation (Spring Boot 4 uses {@code tools.jackson.*} packages).
  */
 @Configuration
 public class JacksonConfig {
 
     @Bean
-    public Jackson2ObjectMapperBuilderCustomizer inventoryJacksonCustomizer() {
+    public JsonMapperBuilderCustomizer inventoryJacksonCustomizer() {
         return builder -> builder
-                .featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
-                .featuresToDisable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-                .indentOutput(true);
+                .disable(DateTimeFeature.WRITE_DATES_AS_TIMESTAMPS)
+                .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+                .enable(SerializationFeature.INDENT_OUTPUT);
     }
 }
