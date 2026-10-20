@@ -1,0 +1,36 @@
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+
+# IDEs
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+.classpath
+.project
+.settings/
+.factorypath
+.sts4-cache/
+.apt_generated/
+nbproject/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs and local data
+*.log
+data/
+uploads/
+
+# Local env overrides
+.env
+application-local.properties
