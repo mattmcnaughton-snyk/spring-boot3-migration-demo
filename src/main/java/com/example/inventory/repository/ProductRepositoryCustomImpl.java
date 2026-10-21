@@ -20,7 +20,7 @@ public class ProductRepositoryCustomImpl implements ProductRepositoryCustom {
     @Transactional
     public Product saveWithSession(Product product) {
         Session session = entityManager.unwrap(Session.class);
-        session.save(product);
+        session.persist(product);
         return product;
     }
 
@@ -28,6 +28,6 @@ public class ProductRepositoryCustomImpl implements ProductRepositoryCustom {
     @Transactional
     public void softDelete(Product product) {
         product.setDeleted(true);
-        entityManager.unwrap(Session.class).update(product);
+        entityManager.unwrap(Session.class).merge(product);
     }
 }
