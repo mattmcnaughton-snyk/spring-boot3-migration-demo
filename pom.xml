@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.5.15</version>
+        <version>4.0.8</version>
         <relativePath/>
     </parent>
 
@@ -23,25 +23,28 @@
     <properties>
         <java.version>17</java.version>
 
+        <!-- Keeps Spring Data on a release with the spring-data-jpa SQL injection fix (within the Boot 4.0 line). -->
+        <spring-data-bom.version>2025.1.7</spring-data-bom.version>
+
         <!-- Pinned to a vulnerable release on purpose (CVE-2022-45868). -->
         <h2.version>2.1.210</h2.version>
+
+        <!-- Keeps Tomcat on a release with the embedded-Tomcat security fixes (within the Boot 4.0 / Tomcat 11.0 line). -->
+        <tomcat.version>11.0.26</tomcat.version>
+
+        <!-- Keeps Jackson 3 on a release with the jackson-core DoS/ReDoS fixes (within the Boot 4.0 line's Jackson 3.1). -->
+        <jackson-bom.version>3.1.7</jackson-bom.version>
     </properties>
 
     <dependencies>
-        <!-- Web layer on Undertow. Spring Boot 4 drops Undertow support entirely. -->
+        <!-- Web layer on Tomcat. Spring Boot 4 drops Undertow support entirely. -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-tomcat</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-undertow</artifactId>
+            <artifactId>spring-boot-starter-restclient</artifactId>
         </dependency>
 
         <dependency>
@@ -60,10 +63,10 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-        <!-- Renamed to spring-boot-starter-aspectj in Spring Boot 4. -->
+        <!-- Renamed from spring-boot-starter-aop in Spring Boot 4. -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aop</artifactId>
+            <artifactId>spring-boot-starter-aspectj</artifactId>
         </dependency>
 
         <dependency>
@@ -107,8 +110,18 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-test</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webmvc-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security-test</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
