@@ -8,8 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Uses the native Hibernate {@link Session} API directly. {@code Session.save()} and
- * {@code Session.update()} are deprecated in Hibernate 6 and removed in Hibernate 7
- * (the version Spring Boot 4 ships with).
+ * {@code Session.update()} were removed in Hibernate 7 (the version Spring Boot 4 ships
+ * with), so {@code persist()} and {@code merge()} are used instead.
  */
 public class ProductRepositoryCustomImpl implements ProductRepositoryCustom {
 
@@ -20,7 +20,7 @@ public class ProductRepositoryCustomImpl implements ProductRepositoryCustom {
     @Transactional
     public Product saveWithSession(Product product) {
         Session session = entityManager.unwrap(Session.class);
-        session.save(product);
+        session.persist(product);
         return product;
     }
 
@@ -28,6 +28,6 @@ public class ProductRepositoryCustomImpl implements ProductRepositoryCustom {
     @Transactional
     public void softDelete(Product product) {
         product.setDeleted(true);
-        entityManager.unwrap(Session.class).update(product);
+        entityManager.unwrap(Session.class).merge(product);
     }
 }

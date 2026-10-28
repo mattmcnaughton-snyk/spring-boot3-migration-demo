@@ -1,29 +1,26 @@
 package com.example.inventory.json;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.JsonSerializer;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import org.springframework.boot.jackson.JsonComponent;
+import org.springframework.boot.jackson.JacksonComponent;
+import tools.jackson.core.JsonGenerator;
+import tools.jackson.databind.SerializationContext;
+import tools.jackson.databind.ValueSerializer;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 /**
  * Serialises every {@link BigDecimal} as a two-decimal string.
  *
- * <p>Spring Boot 4 renames {@code @JsonComponent} to {@code @JacksonComponent}, and
- * Jackson 3 renames {@code JsonSerializer} to {@code ValueSerializer} and
- * {@code SerializerProvider} to {@code SerializationContext}.
+ * <p>Uses Spring Boot 4's {@code @JacksonComponent} and Jackson 3's
+ * {@code ValueSerializer} / {@code SerializationContext}.
  */
-@JsonComponent
+@JacksonComponent
 public class MoneyJsonComponent {
 
-    public static class Serializer extends JsonSerializer<BigDecimal> {
+    public static class Serializer extends ValueSerializer<BigDecimal> {
 
         @Override
-        public void serialize(BigDecimal value, JsonGenerator gen, SerializerProvider serializers)
-                throws IOException {
+        public void serialize(BigDecimal value, JsonGenerator gen, SerializationContext serializers) {
             gen.writeString(value.setScale(2, RoundingMode.HALF_UP).toPlainString());
         }
     }

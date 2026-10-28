@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.5.15</version>
+        <version>4.0.9</version>
         <relativePath/>
     </parent>
 
@@ -25,23 +25,27 @@
 
         <!-- Pinned to a vulnerable release on purpose (CVE-2022-45868). -->
         <h2.version>2.1.210</h2.version>
+
+        <!-- Align log4j-api / log4j-to-slf4j with log4j-core (Spring Boot manages 2.24.3). -->
+        <log4j2.version>2.25.5</log4j2.version>
+
+        <!-- Fix for jackson-databind deserialization vulnerability (stay within the 3.1 line). -->
+        <jackson-bom.version>3.1.8</jackson-bom.version>
     </properties>
 
     <dependencies>
-        <!-- Web layer on Undertow. Spring Boot 4 drops Undertow support entirely. -->
+        <!-- Web layer on Tomcat (Spring Boot 4 drops Undertow support entirely). -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-tomcat</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-undertow</artifactId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-restclient</artifactId>
         </dependency>
 
         <dependency>
@@ -60,10 +64,10 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-        <!-- Renamed to spring-boot-starter-aspectj in Spring Boot 4. -->
+        <!-- Renamed from spring-boot-starter-aop in Spring Boot 4. -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aop</artifactId>
+            <artifactId>spring-boot-starter-aspectj</artifactId>
         </dependency>
 
         <dependency>
@@ -80,7 +84,7 @@
             <!-- Log4Shell: CVE-2021-44228, CVE-2021-45046 -->
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
-            <version>2.14.1</version>
+            <version>2.25.5</version>
         </dependency>
         <dependency>
             <!-- Text4Shell: CVE-2022-42889 -->
@@ -92,7 +96,7 @@
             <!-- Deserialization gadget chain: CVE-2015-7501 -->
             <groupId>commons-collections</groupId>
             <artifactId>commons-collections</artifactId>
-            <version>3.2.1</version>
+            <version>3.2.2</version>
         </dependency>
         <dependency>
             <!-- DoS via unbounded multipart parts: CVE-2023-24998 -->
@@ -104,6 +108,21 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webmvc-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security-test</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
