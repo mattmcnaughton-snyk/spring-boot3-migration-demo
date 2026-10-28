@@ -5,8 +5,8 @@ import com.example.inventory.service.ProductService;
 import com.example.inventory.service.ReportService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -19,22 +19,16 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-/**
- * Spring Boot 4 removes {@code @MockBean} (deprecated since 3.4) in favour of
- * {@code @MockitoBean}, and moves {@code @WebMvcTest} to
- * {@code org.springframework.boot.webmvc.test.autoconfigure}.
- */
 @WebMvcTest(ProductController.class)
-@SuppressWarnings("removal")
 class ProductControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
+    @MockitoBean
     private ProductService productService;
 
-    @MockBean
+    @MockitoBean
     private ReportService reportService;
 
     @Test
