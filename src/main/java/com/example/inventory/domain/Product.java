@@ -8,14 +8,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PositiveOrZero;
-import org.hibernate.annotations.Where;
+import org.hibernate.annotations.SQLRestriction;
 
 import java.math.BigDecimal;
 
 @Entity
 @Table(name = "products")
-// Soft-delete filter. @Where is deprecated in Hibernate 6 and removed in Hibernate 7.
-@Where(clause = "deleted = false")
+// Soft-delete filter. @Where was removed in Hibernate 7; @SQLRestriction replaces it.
+@SQLRestriction("deleted = false")
 public class Product {
 
     @Id

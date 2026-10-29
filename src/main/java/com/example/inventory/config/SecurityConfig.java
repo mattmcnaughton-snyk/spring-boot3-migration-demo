@@ -2,6 +2,8 @@ package com.example.inventory.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
@@ -28,16 +30,14 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             // VULNERABLE: CSRF protection disabled for the whole app.
-            .csrf().disable()
-            .authorizeHttpRequests()
+            .csrf(csrf -> csrf.disable())
+            .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/public/**", "/h2-console/**", "/actuator/**").permitAll()
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                .anyRequest().authenticated()
-            .and()
-            .httpBasic()
-            .and()
+                .anyRequest().authenticated())
+            .httpBasic(Customizer.withDefaults())
             // VULNERABLE: allows the app to be framed (clickjacking).
-            .headers().frameOptions().disable();
+            .headers(headers -> headers.frameOptions(frame -> frame.disable()));
         return http.build();
     }
 
